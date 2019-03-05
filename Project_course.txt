@@ -1,0 +1,148 @@
+Project - Course
+
+
+import psycopg2
+"""
+   Class to access Data Base PostGres
+"""
+
+
+class DbClass:
+    """
+        Class to be use to access the PostGres DataBase
+            Methods :
+                - connect()
+                - execute(command)
+                - commit()
+                - close () - connection and cursor
+    """
+
+    def __init__(self,
+                 hst='localhost',
+                 dbn='Bakos',
+                 usr='postgres',
+                 psw='postgres',
+                 prt='5432',
+                 conn=None,
+                 cur=None,
+                 log=False):
+        """
+            Args:
+                :param hst (str): PostGres host
+                :param dbn (str): PostGres data base name
+                :param usr (str): PostGres user name
+                :param psw (str): PostGres password
+                :param prt (str): PostGres port - 5432
+                :param conn (str): PostGres connection information
+                :param cur (str): PostGres cursor for commands
+                :param log (boolean): Print information - default = False
+        """
+        self.hst = hst
+        self.dbn = dbn
+        self.usr = usr
+        self.psw = psw
+        self.prt = prt
+        self.conn = conn
+        self.cur = cur
+        self.log = log
+
+    def connect(self):
+        self.conn = psycopg2.connect(
+            host=self.hst,
+            database=self.dbn,
+            user=self.usr,
+            password=self.psw,
+            port=self.prt
+        )
+        self.cur = self.conn.cursor()
+        if self.log:
+            print("Connecting to the PostgreSQL database...> '{db}' was succesfull.\n"
+                  .format(db=self.dbn))
+
+    def execute(self, sql):
+        """ Execute Command database - SQL """
+        # execute a statement
+        if self.log:
+            print("Command --> '{cmd}' \n".format(cmd=sql))
+        self.cur.execute(sql)
+
+    def commit(self):
+        """ Execute Commit """
+        # commit the changes
+        self.conn.commit()
+        if self.log:
+            print("Commit was succesful.\n")
+
+    def close(self):
+        """ Close the PostgreSQL database server """
+        # close the communication with the PostgreSQL
+        self.cur.close()
+        self.conn.close()
+        if self.log:
+            print("\nClose the PostgreSQL database...> '{db}' was succesfull."
+                  .format(db=self.dbn))
+
+#
+
+
+import psycopg2
+from dbclass import DbClass
+
+
+if __name__ == '__main__':
+
+    try:
+#
+        db = DbClass(dbn="Bakos", log=False)
+#
+        db.connect()
+#
+        command = "SELECT oid, * FROM pg_catalog.pg_am"
+        db.execute(command)
+#
+        fetch = db.cur.fetchall()
+        i = 1
+        for row in fetch:
+            print("Row number ", i, "- ", row)
+            i += 1
+#
+        db.close()
+#
+    except (Exception, psycopg2.DatabaseError) as error:
+        print("Db error = ", error)
+
+
+
+
+
+
+
+import psycopg2
+from dbclass import DbClass
+
+
+if __name__ == '__main__':
+
+    try:
+        db = DbClass(dbn="Bakos", log=True)
+#
+        db.connect()
+#
+        command = (
+            """                                                                                                   
+            CREATE TABLE courses (                                                                                
+                course_id SERIAL PRIMARY KEY,                                                                     
+                course_name CHAR(25) NOT NULL,                                                                    
+                course_descrip VARCHAR(250),                                                                         
+                course_mod  CHAR(10),                                                                             
+                course_type CHAR(03)                                                                              
+                )                                                                                                                                                                                                 
+            """)
+        db.execute(command)
+#
+        db.commit()
+#
+        db.close()
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        print("DataBase '{dbn}' - Error = ".format(dbn=db.dbn), error)
