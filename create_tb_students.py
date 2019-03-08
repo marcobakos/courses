@@ -19,10 +19,10 @@ if __name__ == '__main__':
                 student_city VARCHAR(50),                        
                 student_cpf CHAR(14),                         
                 student_cnpj CHAR(19),                        
-                student_tel CHAR(13),                         
+                student_tel CHAR(50),                         
                 student_cel CHAR(13),                         
                 student_email VARCHAR(50),                       
-                student_obs VARCHAR(150)                         
+                student_obs VARCHAR(250)                         
                 )                                                                                                                                                                                                                                         
             """)
         db.execute(command)

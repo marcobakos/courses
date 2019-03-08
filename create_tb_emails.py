@@ -12,8 +12,8 @@ if __name__ == '__main__':
         command = (
             """                                                                                                            
            CREATE TABLE emails (                               
-               email_id VARCHAR(50) PRIMARY KEY,                  
-               email_active BOOLEAN NOT NULL                   
+               email_id VARCHAR(70) PRIMARY KEY,                  
+               email_active CHAR(01) NOT NULL                   
                )                                                                                                                 
             """)
         db.execute(command)
