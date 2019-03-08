@@ -6,7 +6,7 @@ if __name__ == '__main__':
 
     try:
 #
-        db = DbClass(dbn="Bakos", log=False)
+        db = DbClass(dbn="Bakos", log=True)
 #
         db.connect()
 #
