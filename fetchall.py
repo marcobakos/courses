@@ -9,7 +9,7 @@ if __name__ == '__main__':
         db = DbClass(dbn="Bakos", log=True)
 #
         db.connect()
-#
+# ssss
         command = "SELECT oid, * FROM pg_catalog.pg_am"
         db.execute(command)
 #
