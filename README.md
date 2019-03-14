@@ -20,6 +20,6 @@ pip install -r requirements.txt
 git status
 git add .
 git commit -m "prep requirements, initial files"
-git push 
+git push fsasdfasdf
 ```
 
